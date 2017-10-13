@@ -25,12 +25,13 @@ Was bedeuten die durchgezogenen Linien, die zwischen einigen Tabellen abgebildet
 
 #### Lösung
 Ein direkter Verweis auf einen andere Tabelle.
+
 ### Aufgabe 3
 Was bedeutet die gestrichelte Linie, die zwischen der Tabelle `ACC_VEHIC` und `GAS_STATION` abgebildet ist?
 
 #### Lösung
+Die gestreichelte Linie bedeutet optionale Partizipation
 
-die gestreichelte Linie bedeutet optionale Partizipation
 ### Aufgabe 3
 Die folgende Abbildung beschreibt eine Beziehung zwischen Tabellen. Sie wird auch `n` zu `m` Beziehung genannt. Beschreibe kurz die Bedeutung dieser Beziehung.
 Nehme dir diesen [Artikel](https://glossar.hs-augsburg.de/Beziehungstypen) zu Hilfe.
@@ -38,11 +39,11 @@ Nehme dir diesen [Artikel](https://glossar.hs-augsburg.de/Beziehungstypen) zu Hi
 ![n-to-m-relationship](./img/n-to-m-relationship.png)
 
 n zu m Beziehung steht für viele zu viele. 
+
 ### Aufgabe 4
 Was bedeutet der Buchstabe `P` und `F` neben den Attributen von Tabellen?
 
 #### Lösung
-
 P - Primary Key
 F - Foreign Key
 
@@ -51,7 +52,6 @@ Importiere die SQL-Dump-Datei in dein eigenes Schema. Wie lautet dazu der Befehl
 
 #### Lösung
 ```sql
-
 START /Users/nicowolf/workspace/github.com/RICK-SANCHES/tgdb_ws1718/sql/tutorium.sql
 ```
 
@@ -62,7 +62,6 @@ Gebe alle Datensätze der Tabelle `ACCOUNT` aus.
 ```sql
 SELECT * 
 FROM ACCOUNT;
-
 ```
 
 ### Aufgabe 7
@@ -72,7 +71,6 @@ Modifiziere Aufgabe 6 so, dass nur die Spalte `ACCOUNT_ID` ausgegeben wird.
 ```sql
 SELECT ACCOUNT_ID
 FROM ACCOUNT;
-
 ```
 
 ### Aufgabe 8
@@ -80,7 +78,6 @@ Gebe alle Spalten der Tabelle `VEHICLE` aus.
 
 #### Lösung
 ```sql
-
 SELECT *
 FROM VEHICLE;
 ```
@@ -90,12 +87,9 @@ Kombiniere Aufgabe 7 und 8 so, dass nur Personen (`ACCOUNT`) angezeigt werden, d
 
 #### Lösung
 ```sql
-
- SELECT DISTINCT ac.surname 
- FROM ACCOUNT ac
- INNER JOIN ACC_VEHIC ve 
- ON ac.ACCOUNT_ID = ve.ACCOUNT_ID;
-
+SELECT DISTINCT ac.surname 
+FROM ACCOUNT ac
+INNER JOIN ACC_VEHIC ve ON ac.ACCOUNT_ID = ve.ACCOUNT_ID;
 ```
 
 ### Aufgabe 10
@@ -117,9 +111,6 @@ Erstelle für dich einen neuen Benutzer.
 ```sql
 Insert into ACCOUNT (ACCOUNT_ID,SURNAME,FORENAME,EMAIL,C_DATE,U_DATE) 
 values ('13','Wolf','Nico','wolfni@hochschule-trier.de',SYSDATE,SYSDATE);
-
-
-
 ```
 
 ### Aufgabe 12
@@ -127,14 +118,12 @@ Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlag
 
 #### Lösung
 ```sql
-
 Insert into VEHICLE (VEHICLE_ID,VEHICLE_TYPE_ID,PRODUCER_ID,VERSION,DEFAULT_GAS_ID,PS,BUILD_YEAR,DOORS,C_DATE,U_DATE) 
 values ('18','1','12','Ford Focus','1','105',SYSDATE,'5',SYSDATE,SYSDATE);
-
 ```
 
 ### Aufgabe 13
-Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus Aufgabe 11 in der Tabelle `ACC_VEHIC` und erstelle den ersten Rechnungsbeleg.s
+Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus Aufgabe 11 in der Tabelle `ACC_VEHIC` und erstelle den ersten Rechnungsbeleg.
 
 #### Lösung
 ```sql
@@ -149,9 +138,7 @@ values ('18','13','116','TR:N 2312','Rostlaube','432','159451',null,null,SYSDATE
 ```sql
 UPDATE ACCOUNT
 SET SURNAME = 'Zimmermann'
-WHERE ACCOUNT_ID = 50;
-
-
+WHERE ACCOUNT_ID = 7;
 ```
 
 ### Aufgabe 15
@@ -160,5 +147,4 @@ Speichere alle Änderungen deiner offenen Transaktion. Wie lautet der SQL-Befehl
 #### Lösung
 ```sql
 commit;
-
 ```
