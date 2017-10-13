@@ -97,10 +97,10 @@ Modifizierde die Aufgabe 9 so, dass nur die Person mit der `ACCOUNT_ID` = `7` an
 
 #### Lösung
 ```sql
- SELECT DISTINCT ac.surname 
- FROM ACCOUNT ac
- INNER JOIN ACC_VEHIC ve 
- ON ac.ACCOUNT_ID = 7;
+SELECT SURNAME
+FROM ACCOUNT
+INNER JOIN ACC_VEHIC ON ACCOUNT.ACCOUNT_ID = ACC_VEHIC.ACCOUNT_ID
+WHERE ACCOUNT_ID = 7;
 ```
 
 ### Aufgabe 11
