@@ -17,7 +17,6 @@ Schaue dir das Datenbankmodell an. Wofür steht hinter dem Datentyp `NUMBER` die
 Nehme dir die Oracle [Dokumentation](https://docs.oracle.com/cd/B28359_01/server.111/b28318/datatype.htm#CNCPT012) zu Hilfe.
 
 #### Lösung
-
 Der Datentyp 'Number(n,p)' steht für Dezimalzahlige Werte. 'n' steht für die insgesamt zu vergebenen Stellen, von denen 'p' die Nackommastellen bilden.
 
 ### Aufgabe 2
@@ -87,9 +86,10 @@ Kombiniere Aufgabe 7 und 8 so, dass nur Personen (`ACCOUNT`) angezeigt werden, d
 
 #### Lösung
 ```sql
-SELECT DISTINCT ac.surname 
-FROM ACCOUNT ac
-INNER JOIN ACC_VEHIC ve ON ac.ACCOUNT_ID = ve.ACCOUNT_ID;
+SELECT SURNAME
+FROM ACCOUNT
+INNER JOIN ACC_VEHIC
+ON ACCOUNT.ACCOUNT_ID = ACC_VEHIC.ACCOUNT_ID;
 ```
 
 ### Aufgabe 10
@@ -99,7 +99,8 @@ Modifizierde die Aufgabe 9 so, dass nur die Person mit der `ACCOUNT_ID` = `7` an
 ```sql
 SELECT SURNAME
 FROM ACCOUNT
-INNER JOIN ACC_VEHIC ON ACCOUNT.ACCOUNT_ID = ACC_VEHIC.ACCOUNT_ID
+INNER JOIN ACC_VEHIC
+ON ACCOUNT.ACCOUNT_ID = ACC_VEHIC.ACCOUNT_ID
 WHERE ACCOUNT_ID = 7;
 ```
 
@@ -109,8 +110,7 @@ Erstelle für dich einen neuen Benutzer.
 
 #### Lösung
 ```sql
-Insert into ACCOUNT (ACCOUNT_ID,SURNAME,FORENAME,EMAIL,C_DATE,U_DATE) 
-values ('13','Wolf','Nico','wolfni@hochschule-trier.de',SYSDATE,SYSDATE);
+Deine Lösung
 ```
 
 ### Aufgabe 12
@@ -118,8 +118,7 @@ Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlag
 
 #### Lösung
 ```sql
-Insert into VEHICLE (VEHICLE_ID,VEHICLE_TYPE_ID,PRODUCER_ID,VERSION,DEFAULT_GAS_ID,PS,BUILD_YEAR,DOORS,C_DATE,U_DATE) 
-values ('18','1','12','Ford Focus','1','105',SYSDATE,'5',SYSDATE,SYSDATE);
+Insert into VEHICLE (VEHICLE_ID,VEHICLE_TYPE_ID,PRODUCER_ID,VERSION,DEFAULT_GAS_ID,PS,BUILD_YEAR,DOORS,C_DATE,U_DATE) values ('1','1','1','Ford','1','75',to_date('18.08.08','DD.MM.RR'),'5',to_date('15.09.17','DD.MM.RR'),to_date('15.09.17','DD.MM.RR'));
 ```
 
 ### Aufgabe 13
@@ -127,8 +126,7 @@ Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus 
 
 #### Lösung
 ```sql
-Insert into ACC_VEHIC (ACC_VEHIC_ID,ACCOUNT_ID,VEHICLE_ID,IDENTICATOR,ALIAS,BUY_PRICE,BUY_KILOMETER,SOLD_PRICE,SOLD_KILOMETER,REGISTRATION,CHECKOUT,DEFAULT_GAS_STATION,C_DATE,U_DATE) 
-values ('18','13','116','TR:N 2312','Rostlaube','432','159451',null,null,SYSDATE,null,'1',SYSDATE,SYSDATE);
+Deine Lösung
 ```
 
 ### Aufgabe 14
@@ -136,9 +134,7 @@ values ('18','13','116','TR:N 2312','Rostlaube','432','159451',null,null,SYSDATE
 
 #### Lösung
 ```sql
-UPDATE ACCOUNT
-SET SURNAME = 'Zimmermann'
-WHERE ACCOUNT_ID = 7;
+Deine Lösung
 ```
 
 ### Aufgabe 15
@@ -146,5 +142,5 @@ Speichere alle Änderungen deiner offenen Transaktion. Wie lautet der SQL-Befehl
 
 #### Lösung
 ```sql
-commit;
+Deine Lösung
 ```
