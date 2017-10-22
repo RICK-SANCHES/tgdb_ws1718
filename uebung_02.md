@@ -17,68 +17,88 @@ Schaue dir das Datenbankmodell an. Wofür steht hinter dem Datentyp `NUMBER` die
 Nehme dir die Oracle [Dokumentation](https://docs.oracle.com/cd/B28359_01/server.111/b28318/datatype.htm#CNCPT012) zu Hilfe.
 
 #### Lösung
-Deine schritliche Antwort.
+
+Der Datentyp 'Number(n,p)' steht für Dezimalzahlige Werte. 'n' steht für die insgesamt zu vergebenen Stellen, von denen 'p' die Nackommastellen bilden.
 
 ### Aufgabe 2
 Was bedeuten die durchgezogenen Linien, die zwischen einigen Tabellen abgebildet sind?
 
 #### Lösung
-Deine schriftliche Antwort.
-
+Ein direkter Verweis auf einen andere Tabelle.
 ### Aufgabe 3
 Was bedeutet die gestrichelte Linie, die zwischen der Tabelle `ACC_VEHIC` und `GAS_STATION` abgebildet ist?
 
 #### Lösung
-Deine schriftliche Antwort.
 
-### Aufgabe 4
+die gestreichelte Linie bedeutet optionale Partizipation
+### Aufgabe 3
 Die folgende Abbildung beschreibt eine Beziehung zwischen Tabellen. Sie wird auch `n` zu `m` Beziehung genannt. Beschreibe kurz die Bedeutung dieser Beziehung.
 Nehme dir diesen [Artikel](https://glossar.hs-augsburg.de/Beziehungstypen) zu Hilfe.
 
 ![n-to-m-relationship](./img/n-to-m-relationship.png)
 
-Deine schriftliche Antwort.
-
-### Aufgabe 5
+n zu m Beziehung steht für viele zu viele. 
+### Aufgabe 4
 Was bedeutet der Buchstabe `P` und `F` neben den Attributen von Tabellen?
 
 #### Lösung
-Deine schriftliche Lösung.
 
-### Aufgabe 6
+P - Primary Key
+F - Foreign Key
+
+### Aufgabe 5
 Importiere die SQL-Dump-Datei in dein eigenes Schema. Wie lautet dazu der Befehl um dem import zu starten?
 
 #### Lösung
 ```sql
-Deine Lösung
+
+START /Users/nicowolf/workspace/github.com/RICK-SANCHES/tgdb_ws1718/sql/tutorium.sql
 ```
 
-### Aufgabe 7
+### Aufgabe 6
 Gebe alle Datensätze der Tabelle `ACCOUNT` aus.
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT * 
+FROM ACCOUNT;
+
 ```
 
-### Aufgabe 8
-Modifiziere Aufgabe 7 so, dass nur die Spalte `ACCOUNT_ID` ausgegeben wird.
+### Aufgabe 7
+Modifiziere Aufgabe 6 so, dass nur die Spalte `ACCOUNT_ID` ausgegeben wird.
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT ACCOUNT_ID
+FROM ACCOUNT;
+
 ```
 
-### Aufgabe 9
+### Aufgabe 8
 Gebe alle Spalten der Tabelle `VEHICLE` aus.
 
 #### Lösung
 ```sql
-Deine Lösung
+
+SELECT *
+FROM VEHICLE;
+```
+
+### Aufgabe 9
+Kombiniere Aufgabe 7 und 8 so, dass nur Personen (`ACCOUNT`) angezeigt werden, die ein Auto (`VEHICLE`) besitzen.
+
+#### Lösung
+```sql
+
+SELECT ACCOUNT, VEHICLE
+FROM ACCOUNT
+INNER JOIN ACC_VEHIC
+
 ```
 
 ### Aufgabe 10
-Kombiniere Aufgabe 7 und 9 so, dass nur Personen (`ACCOUNT`) angezeigt werden, die ein Auto (`VEHICLE`) besitzen.
+Modifizierde die Aufgabe 9 so, dass nur die Person mit der `ACCOUNT_ID` = `7` angezeigt wird.
 
 #### Lösung
 ```sql
@@ -86,14 +106,6 @@ Deine Lösung
 ```
 
 ### Aufgabe 11
-Modifizierde die Aufgabe 10 so, dass nur die Person mit der `ACCOUNT_ID` = `7` angezeigt wird.
-
-#### Lösung
-```sql
-Deine Lösung
-```
-
-### Aufgabe 12
 Erstelle für dich einen neuen Benutzer.
 > Achtung, nutze für die Spalten `C_DATE` und `U_DATE` vorerst die Syntax `SYSDATE` - [Dokumentation](https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions172.htm)
 
@@ -102,7 +114,7 @@ Erstelle für dich einen neuen Benutzer.
 Deine Lösung
 ```
 
-### Aufgabe 13
+### Aufgabe 12
 Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlage für die nächten Aufgaben.
 
 #### Lösung
@@ -110,15 +122,15 @@ Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlag
 Deine Lösung
 ```
 
-### Aufgabe 14
-Verknüpfe das aus Aufgabe 13 erstellte neue Auto mit deinem neuen Benutzer aus Aufgabe 12 in der Tabelle `ACC_VEHIC` und erstelle den ersten Rechnungsbeleg.
+### Aufgabe 13
+Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus Aufgabe 11 in der Tabelle `ACC_VEHIC` und erstelle den ersten Rechnungsbeleg.
 
 #### Lösung
 ```sql
 Deine Lösung
 ```
 
-### Aufgabe 15
+### Aufgabe 14
 Ändere den Vorname `SURNAME` des Datensatzes mit der ID `7` in der Tabelle `ACCOUNT` auf `Zimmermann`.
 
 #### Lösung
@@ -126,7 +138,7 @@ Deine Lösung
 Deine Lösung
 ```
 
-### Aufgabe 16
+### Aufgabe 15
 Speichere alle Änderungen deiner offenen Transaktion. Wie lautet der SQL-Befehl dazu?
 
 #### Lösung
