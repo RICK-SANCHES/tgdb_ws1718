@@ -91,9 +91,10 @@ Kombiniere Aufgabe 7 und 8 so, dass nur Personen (`ACCOUNT`) angezeigt werden, d
 #### Lösung
 ```sql
 
-SELECT ACCOUNT, VEHICLE
-FROM ACCOUNT
-INNER JOIN ACC_VEHIC
+ SELECT DISTINCT ac.surname 
+ FROM ACCOUNT ac
+ INNER JOIN ACC_VEHIC ve 
+ ON ac.ACCOUNT_ID = ve.ACCOUNT_ID;
 
 ```
 
@@ -102,7 +103,10 @@ Modifizierde die Aufgabe 9 so, dass nur die Person mit der `ACCOUNT_ID` = `7` an
 
 #### Lösung
 ```sql
-Deine Lösung
+ SELECT DISTINCT ac.surname 
+ FROM ACCOUNT ac
+ INNER JOIN ACC_VEHIC ve 
+ ON ac.ACCOUNT_ID = 7;
 ```
 
 ### Aufgabe 11
@@ -111,7 +115,11 @@ Erstelle für dich einen neuen Benutzer.
 
 #### Lösung
 ```sql
-Deine Lösung
+Insert into ACCOUNT (ACCOUNT_ID,SURNAME,FORENAME,EMAIL,C_DATE,U_DATE) 
+values ('13','Wolf','Nico','wolfni@hochschule-trier.de',SYSDATE,SYSDATE);
+
+
+
 ```
 
 ### Aufgabe 12
@@ -119,7 +127,10 @@ Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlag
 
 #### Lösung
 ```sql
-Deine Lösung
+
+Insert into VEHICLE (VEHICLE_ID,VEHICLE_TYPE_ID,PRODUCER_ID,VERSION,DEFAULT_GAS_ID,PS,BUILD_YEAR,DOORS,C_DATE,U_DATE) 
+values ('18','1','12','Ford Focus','1','105',SYSDATE,'5',SYSDATE,SYSDATE);
+
 ```
 
 ### Aufgabe 13
@@ -143,5 +154,6 @@ Speichere alle Änderungen deiner offenen Transaktion. Wie lautet der SQL-Befehl
 
 #### Lösung
 ```sql
-Deine Lösung
+commit;
+
 ```
