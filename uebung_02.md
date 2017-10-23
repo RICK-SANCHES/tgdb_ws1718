@@ -138,7 +138,8 @@ Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus 
 
 #### Lösung
 ```sql
-Deine Lösung
+Insert into ACC_VEHIC (ACC_VEHIC_ID,ACCOUNT_ID,VEHICLE_ID,IDENTICATOR,ALIAS,BUY_PRICE,BUY_KILOMETER,SOLD_PRICE,SOLD_KILOMETER,REGISTRATION,CHECKOUT,DEFAULT_GAS_STATION,C_DATE,U_DATE) 
+values ('18','13','116','TR:N 2312','Rostlaube','432','159451',null,null,SYSDATE,null,'1',SYSDATE,SYSDATE);
 ```
 
 ### Aufgabe 14
