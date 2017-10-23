@@ -132,7 +132,7 @@ Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlag
 #### Lösung
 ```sql
 -- VEHICLE_TYPE_ID = 1 (PKW)
-SELECT vehicle_type_id
+SELECT *
 FROM vehicle_type;
 
 -- PRODUCER_ID = 4 (Volvo)
@@ -142,6 +142,18 @@ FROM producer;
 -- Erstellen des Autos
 INSERT INTO vehicle
 VALUES (999, 1, 4, 'S80', NULL, 150, SYSDATE, '5', SYSDATE, SYSDATE);
+
+-- Dynamisches SQL (Alles in einem)
+INSERT INTO vehicle
+VALUES (
+          (SELECT MAX(vehicle_id) + 1 FROM vehicle),
+          (SELECT vehicle_type_id FROM vehicle_type WHERE vehicle_type_name = 'PKW'),
+          (SELECT producer_id FROM producer WHERE producer_name = 'Ford'),
+          'S80',
+          NULL,
+          150,
+          SYSDATE,
+          SYSDATE);
 ```
 
 ### Aufgabe 13
