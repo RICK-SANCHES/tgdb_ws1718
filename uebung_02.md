@@ -17,7 +17,15 @@ Schaue dir das Datenbankmodell an. Wofür steht hinter dem Datentyp `NUMBER` die
 Nehme dir die Oracle [Dokumentation](https://docs.oracle.com/cd/B28359_01/server.111/b28318/datatype.htm#CNCPT012) zu Hilfe.
 
 #### Lösung
-Der Datentyp 'Number(n,p)' steht für Dezimalzahlige Werte. 'n' steht für die insgesamt zu vergebenen Stellen, von denen 'p' die Nackommastellen bilden.
+Der Datentyp `NUMBER` ermöglicht das speichern von positiven als auch negativen Ganzzahlen und Fließkommazahlen. Die Werte in den Klammern haben unterschiedliche Bedeutungen. Die erste Stelle in der Klammer steht für die Gesamte Anzahl von Zahlen und die zweite Stelle, wie viele Zahlen hinter dem Komma stehen.
+
+Einige Beispiele:
+
+| Deklaration   | Beispielmöglichkeiten                   |
+| ------------- | --------------------------------------- |
+| NUMBER(38,0)  | 9999999999999999999999999999999999999   |
+| NUMBER(3,2)   | 1.81, 9.74, 0.54                        |
+| NUMBER(5,2)   | 842.52, 965.45, 14.45                   |
 
 ### Aufgabe 2
 Was bedeuten die durchgezogenen Linien, die zwischen einigen Tabellen abgebildet sind?
@@ -37,21 +45,21 @@ Nehme dir diesen [Artikel](https://glossar.hs-augsburg.de/Beziehungstypen) zu Hi
 
 ![n-to-m-relationship](./img/n-to-m-relationship.png)
 
-n zu m Beziehung steht für viele zu viele. 
+#### Lösung
+Eine `n` zu `m` Beziehung beschreibt, dass `n` Datensätze mit `m` Datensätze verknüpft werden können. Als Beispiel kann hier eine Person mehrere Hobbys haben. Die Verknüpfung welche Hobbies eine Person hat wird in der Tabelle `PERSON_HOBBY` abgebildet.
 
 ### Aufgabe 4
 Was bedeutet der Buchstabe `P` und `F` neben den Attributen von Tabellen?
 
 #### Lösung
-P - Primary Key
-F - Foreign Key
+Das `P` steht für Primary-Key und `F` steht für Foreign-Key.
 
 ### Aufgabe 5
 Importiere die SQL-Dump-Datei in dein eigenes Schema. Wie lautet dazu der Befehl um dem import zu starten?
 
 #### Lösung
 ```sql
-START /Users/nicowolf/workspace/github.com/RICK-SANCHES/tgdb_ws1718/sql/tutorium.sql
+start /home/markus/workspace/github.com/volker-raschek/tgdb_ws1718/sql/Tutorium.sql
 ```
 
 ### Aufgabe 6
@@ -59,8 +67,8 @@ Gebe alle Datensätze der Tabelle `ACCOUNT` aus.
 
 #### Lösung
 ```sql
-SELECT * 
-FROM ACCOUNT;
+SELECT *
+FROM account;
 ```
 
 ### Aufgabe 7
@@ -68,8 +76,8 @@ Modifiziere Aufgabe 6 so, dass nur die Spalte `ACCOUNT_ID` ausgegeben wird.
 
 #### Lösung
 ```sql
-SELECT ACCOUNT_ID
-FROM ACCOUNT;
+SELECT account_id
+FROM account;
 ```
 
 ### Aufgabe 8
@@ -78,7 +86,7 @@ Gebe alle Spalten der Tabelle `VEHICLE` aus.
 #### Lösung
 ```sql
 SELECT *
-FROM VEHICLE;
+FROM vehicle;
 ```
 
 ### Aufgabe 9
@@ -86,10 +94,12 @@ Kombiniere Aufgabe 7 und 8 so, dass nur Personen (`ACCOUNT`) angezeigt werden, d
 
 #### Lösung
 ```sql
-SELECT SURNAME
-FROM ACCOUNT
-INNER JOIN ACC_VEHIC
-ON ACCOUNT.ACCOUNT_ID = ACC_VEHIC.ACCOUNT_ID;
+SELECT surname, forename
+FROM account
+WHERE account_id IN (
+  SELECT account_id
+  FROM vehicle
+);
 ```
 
 ### Aufgabe 10
@@ -97,11 +107,13 @@ Modifizierde die Aufgabe 9 so, dass nur die Person mit der `ACCOUNT_ID` = `7` an
 
 #### Lösung
 ```sql
-SELECT SURNAME
-FROM ACCOUNT
-INNER JOIN ACC_VEHIC
-ON ACCOUNT.ACCOUNT_ID = ACC_VEHIC.ACCOUNT_ID
-WHERE ACCOUNT_ID = 7;
+SELECT surname, forename
+FROM account
+WHERE account_id IN (
+  SELECT account_id
+  FROM vehicle
+)
+AND account_id = 7;
 ```
 
 ### Aufgabe 11
@@ -110,7 +122,8 @@ Erstelle für dich einen neuen Benutzer.
 
 #### Lösung
 ```sql
-Deine Lösung
+INSERT INTO account (account_id, surname, forename, email, c_date, d_date)
+VALUES (999, 'Pesch', 'Markus', 'peschm@fh-trier.de', SYSDATE, SYSDATE);
 ```
 
 ### Aufgabe 12
@@ -118,7 +131,17 @@ Erstelle für deinen neuen Benutzer ein neues Auto. Dieses Auto dient als Vorlag
 
 #### Lösung
 ```sql
-Insert into VEHICLE (VEHICLE_ID,VEHICLE_TYPE_ID,PRODUCER_ID,VERSION,DEFAULT_GAS_ID,PS,BUILD_YEAR,DOORS,C_DATE,U_DATE) values ('1','1','1','Ford','1','75',to_date('18.08.08','DD.MM.RR'),'5',to_date('15.09.17','DD.MM.RR'),to_date('15.09.17','DD.MM.RR'));
+-- VEHICLE_TYPE_ID = 1 (PKW)
+SELECT vehicle_type_id
+FROM vehicle_type;
+
+-- PRODUCER_ID = 4 (Volvo)
+SELECT *
+FROM producer;
+
+-- Erstellen des Autos
+INSERT INTO vehicle
+VALUES (999, 1, 4, 'S80', NULL, 150, SYSDATE, '5', SYSDATE, SYSDATE);
 ```
 
 ### Aufgabe 13
@@ -126,7 +149,8 @@ Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus 
 
 #### Lösung
 ```sql
-Deine Lösung
+INSERT INTO acc_vehic (acc_vehic_id, account_id, vehicle_id, identicator, alias, buy_price, buy_kilometer, sold_price, sold_kilometer, registration, checkout, default_gas_station, c_date, u_date)
+VALUES (999, 999, 999, 'TR:YZ:1', 'Meine Karre', 5000.00, 15240, NULL, NULL, SYSDATE, NULL, NULL, SYSDATE, SYSDATE);
 ```
 
 ### Aufgabe 14
@@ -134,7 +158,9 @@ Deine Lösung
 
 #### Lösung
 ```sql
-Deine Lösung
+UPDATE account
+SET surname='Zimmermann'
+WHERE account_id=7;
 ```
 
 ### Aufgabe 15
@@ -142,5 +168,5 @@ Speichere alle Änderungen deiner offenen Transaktion. Wie lautet der SQL-Befehl
 
 #### Lösung
 ```sql
-Deine Lösung
+COMMIT;
 ```
