@@ -134,7 +134,7 @@ values ('18','1','12','Ford Focus','1','105',SYSDATE,'5',SYSDATE,SYSDATE);
 ```
 
 ### Aufgabe 13
-Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus Aufgabe 11 in der Tabelle `ACC_VEHIC` und erstelle den ersten Rechnungsbeleg.
+Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus Aufgabe 11 in der Tabelle `ACC_VEHIC` und erstelle den ersten Rechnungsbeleg.s
 
 #### Lösung
 ```sql
@@ -146,7 +146,11 @@ Deine Lösung
 
 #### Lösung
 ```sql
-Deine Lösung
+UPDATE ACCOUNT
+SET SURNAME = 'Zimmermann'
+WHERE ACCOUNT_ID = 50;
+
+
 ```
 
 ### Aufgabe 15
