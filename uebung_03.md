@@ -10,7 +10,7 @@
 ## Datenbankmodell
 ![Datenbankmodell](./img/datamodler_schema.png)
 
-## Aufgaben
+##Aufgaben
 
 ### Aufgabe 1
 Erstelle eine `INNER JOIN` (optional `WHERE`) Abfrage um die Beziehungen zwischen den Tabellen `GAS_STATION`, `Provider`, `COUNTRY` und `ADDRESS` aufzulösen, sodass eine ähnliche Ausgabe erstellt wird wie abgebildet.
@@ -23,7 +23,16 @@ Erstelle eine `INNER JOIN` (optional `WHERE`) Abfrage um die Beziehungen zwische
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT 	p.provider_name "Anbieter",
+		gs.street "Straße",
+		a.plz "PLZ",
+		a.city "Stadt",
+		c.country_name "Land",
+		c.duty_amount "Steuer"
+FROM gas_station gs
+	Inner Join address a ON (gs.address_id = a.address_id)
+	Inner Join country c ON (c.country_id = gs.country_id)
+	Inner Join provider p ON (gs.provider_id = p.provider_id);
 ```
 
 ### Aufgabe 2
