@@ -108,14 +108,20 @@ FROM vehicle vc
 	INNER JOIN PRODUCER pr ON (pr.PRODUCER_ID = vc.PRODUCER_ID)
 	LEFT JOIN GAS gs ON (vc.DEFAULT_GAS_ID = gs.GAS_ID);
 
-```
+ 
 
 ### Aufgabe 6
 Welche Fahrzeuge wurden noch keinem Benutzer zugewiesen? Gebe über das Fahrzeug Informationen über den Typ, den Hersteller, das Modell, Baujahr und den Kraftstoff aus.
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT vt.VEHICLE_TYPE_NAME, pr.PRODUCER_NAME, ve.VERSION, ve.BUILD_YEAR, gs.GAS_NAME
+FROM VEHICLE ve
+	INNER JOIN VEHICLE_TYPE vt ON (vt.VEHICLE_TYPE_ID = ve.VEHICLE_TYPE_ID)
+    INNER JOIN PRODUCER pr ON (pr.PRODUCER_ID = ve.PRODUCER_ID)
+    LEFT JOIN GAS gs ON (ve.DEFAULT_GAS_ID = gs.GAS_ID)
+WHERE ve.VEHICLE_ID NOT IN (SELECT VEHICLE_ID FROM ACC_VEHIC);
+
 ```
 
 ### Aufgabe 7
@@ -123,7 +129,23 @@ Verknüpfe eines der Autos aus Aufgabe 6 mit deinem Benutzernamen. Verwende dazu
 
 #### Lösung
 ```
-Deine Lösung
+INSERT INTO ACC_VEHIC 
+VALUES (
+  (SELECT MAX(ACC_VEHIC_ID)+1 FROM ACC_VEHIC),
+  (SELECT ACCOUNT_ID FROM ACCOUNT WHERE EMAIL = 'wolfni@hochschule-trier.de'),
+  9,
+  NULL,
+  NULL,
+  163233,
+  10000,
+  124542,
+  53000,
+  SYSDATE,
+  SYSDATE,
+  (SELECT GAS_ID FROM GAS WHERE GAS_NAME = 'Diesel'),
+  SYSDATE,
+  SYSDATE  
+);
 ```
 
 ### Aufgabe 8
@@ -131,7 +153,13 @@ An welcher Tankstelle wurde noch nie getankt? Gebe zu den Tankstellen die Inform
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT pr.provider_name, ad.city
+FROM gas_station gs
+	INNER JOIN provider pr ON (pr.provider_id = gs.provider_id)
+	INNER JOIN address ad ON (ad.address_id = gs.address_id)
+	WHERE gs.GAS_STATION_ID NOT IN (SELECT DISTINCT GAS_STATION_ID FROM RECEIPT);
+
+
 ```
 
 ### Aufgabe 9
@@ -139,7 +167,14 @@ Liste alle Benutzer (Vorname und Nachname) mit Fahrzeug (Hersteller, Modell, Ali
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT ac.surname, ac.forename, ve.version
+FROM account ac
+	INNER JOIN acc_vehic av ON (av.account_id = ac.account_ID)
+	INNER JOIN vehicle ve ON (ve.vehicle_id = av.vehicle_id)
+		WHERE ac.account_id NOT IN (SELECT DISTINCT account_id  from receipt);
+
+
+
 ```
 
 ### Aufgabe 10
@@ -147,7 +182,14 @@ Liste alle Benutzer auf, die mit einem Fahrzeug schonmal im Außland tanken ware
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT ac.surname, ac.forename, ve.version
+FROM account ac
+	INNER JOIN acc_vehic av ON (av.account_id = ac.account_ID)
+	INNER JOIN vehicle ve ON (ve.vehicle_id = av.vehicle_id)
+	INNER JOIN receipt re ON (re.account_id = ac.account_id)
+	INNER JOIN gas_station gs ON (gs.gas_station_id = re.gas_station_id)
+	    WHERE gs.COUNTRY_ID != (SELECT COUNTRY_ID FROM COUNTRY WHERE
+	       COUNTRY_NAME = 'Deutschland');
 ```
 
 ### Aufgabe 11
@@ -155,7 +197,15 @@ Wie viele Benutzer haben einen LKW registriert?
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT COUNT(DISTINCT ac.ACCOUNT_ID) "LKW_USER"
+FROM account ac
+	INNER JOIN acc_vehic av ON (av.account_id = ac.account_id)
+	INNER JOIN vehicle ve ON (ve.vehicle_id = av.vehicle_id)
+	INNER JOIN vehicle_type vp ON (vp.vehicle_type_id = ve.vehicle_type_id)
+	WHERE vp.vehicle_type_name = 'LKW';
+
+
+
 ```
 
 ### Aufgabe 12
@@ -163,7 +213,22 @@ Wie viele Benutzer haben einen PKW und einen LKW registriert?
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT COUNT(DISTINCT ac.ACCOUNT_ID) "LKW_USER"
+FROM account ac
+	INNER JOIN acc_vehic av ON (av.account_id = ac.account_id)
+	INNER JOIN vehicle ve ON (ve.vehicle_id = av.vehicle_id)
+	INNER JOIN vehicle_type vp ON (vp.vehicle_type_id = ve.vehicle_type_id)
+	WHERE vp.vehicle_type_name = 'LKW'
+	AND
+	(SELECT COUNT(DISTINCT ac.ACCOUNT_ID) "PKW_USER"
+	FROM account ac
+		INNER JOIN acc_vehic av ON (av.account_id = ac.account_id)
+		INNER JOIN vehicle ve ON (ve.vehicle_id = av.vehicle_id)
+		INNER JOIN vehicle_type vp ON (vp.vehicle_type_id = ve.vehicle_type_id)
+		WHERE vp.vehicle_type_name = 'PKW');
+
+	
+
 ```
 
 ### Aufgabe 13
@@ -171,7 +236,9 @@ Führe den Patch `02_patch.sql`, der sich im Verzeichnis `sql` befindet, in dein
 
 #### Lösung
 ```sql
-Deine Lösung
+
+start /Users/nicowolf/workspace/github.com/RICK-SANCHES/tgdb_ws1718/sql/02_patch.sql
+
 ```
 
 ### Aufgabe 14
@@ -179,7 +246,18 @@ Aktualisiere den Steuersatz aller Belege auf den Steuersatz des Landes, indem di
 
 #### Lösung
 ```sql
-Deine Lösung
+
+UPDATE receipt re
+ SET duty_amount = ( 
+   	SELECT co.DUTY_AMOUNT
+ 	FROM COUNTRY co
+ 	WHERE co.COUNTRY_ID = (
+       SELECT gs.COUNTRY_ID
+       FROM GAS_STATION gs
+       WHERE gs.GAS_STATION_ID = re.GAS_STATION_ID
+     )
+ );
+
 ```
 
 
