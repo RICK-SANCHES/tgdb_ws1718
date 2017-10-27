@@ -23,7 +23,7 @@ Erstelle eine `INNER JOIN` (optional `WHERE`) Abfrage um die Beziehungen zwische
 
 #### Lösung
 ```sql
-SELECT 	p.provider_name "Anbieter",
+SELECT 	provider_name "Anbieter",
 		gs.street "Straße",
 		a.plz "PLZ",
 		a.city "Stadt",
@@ -40,7 +40,18 @@ Suche alle Tankstelle raus, deren Straßenname an zweiter Stelle ein `U` haben (
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT 	provider_name "Anbieter",
+		gs.street "Straße",
+		a.plz "PLZ",
+		a.city "Stadt",
+		c.country_name "Land",
+		c.duty_amount "Steuer"
+FROM gas_station gs
+	Inner Join address a ON (gs.address_id = a.address_id)
+	Inner Join country c ON (c.country_id = gs.country_id)
+	Inner Join provider p ON (gs.provider_id = p.provider_id)
+	WHERE gs.street LIKE '_U$';
+
 ```
 
 ### Aufgabe 3
@@ -48,7 +59,14 @@ Suche alle Tankstellen raus, die sich in Trier befinden.
 
 #### Lösung
 ```sql
-Deine Lösung
+
+SELECT provider_name
+FROM gas_station gs
+	INNER JOIN provider pr ON (pr.provider_id = gs.provider_id)
+	INNER JOIN country cr ON(cr.country_id = gs.country_id)
+	INNER JOIN address ad ON (ad.address_id = gs.address_id)
+	WHERE city = 'Tier';
+	
 ```
 
 #### Aufgabe 4
@@ -56,7 +74,10 @@ Füge eine fiktive Tankstelle hinzu. Sie darf auf keine bestehenden Informatione
 
 #### Lösung
 ```sql
-Deine Lösung
+INSERT into provider
+	VALUES ((SELECT MAX(PROVIDER_ID)+1 FROM PROVIDER), 'Agip');
+
+
 ```
 
 ### Aufgabe 5
@@ -69,7 +90,24 @@ Erstelle eine INNER JOIN (optional `WHERE`) Abfrage um die Beziehung zwischen de
 
 #### Lösung
 ```sql
-Deine Lösung
+SET LINE 256
+COLUMN FORENAME FORMAT a16
+COLUMN SURNAME FORMAT a16
+COLUMN VEHICLE_TYPE_NAME FORMAT a16
+COLUMN VERSION FORMAT a11
+COLUMN BUILD_YEAR FORMAT a10
+COLUMN PRODUCER_NAME FORMAT a16
+COLUMN GAS_NAME FORMAT a10
+
+
+SELECT  ac. FORENAME, ac.SURNAME, vp.VEHICLE_TYPE_NAME, vc.VERSION, vc.BUILD_YEAR, pr.PRODUCER_NAME, gs.GAS_NAME
+FROM vehicle vc
+	INNER JOIN acc_vehic av ON (vc.vehicle_id = av.vehicle_id)
+	INNER JOIN account ac ON (ac.account_id = av.account_id)
+	INNER JOIN VEHICLE_TYPE vp ON (vp.VEHICLE_TYPE_ID = vp.VEHICLE_TYPE_ID)
+	INNER JOIN PRODUCER pr ON (pr.PRODUCER_ID = vc.PRODUCER_ID)
+	LEFT JOIN GAS gs ON (vc.DEFAULT_GAS_ID = gs.GAS_ID);
+
 ```
 
 ### Aufgabe 6
