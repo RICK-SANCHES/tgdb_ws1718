@@ -255,8 +255,7 @@ UPDATE receipt re
        SELECT gs.COUNTRY_ID
        FROM GAS_STATION gs
        WHERE gs.GAS_STATION_ID = re.GAS_STATION_ID
-     )
- );
+     ));	
 
 ```
 

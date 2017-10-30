@@ -47,10 +47,11 @@ y_coordinate NUMBER(20,5));
 
 ```
 
-### Aufgabe 3 - Für Enthusiasten
+### Aufgabe 3
 Welche Kunden haben im Jahr 2017 mehr als den Durchschnitt getank?
 
 #### Lösung
+<<<<<<< HEAD
 ```
 SELECT ac.surname, ac.forename
 FROM account ac
@@ -58,6 +59,10 @@ INNER JOIN receipt re ON (re.account_id = ac.account_id)
 WHERE re.liter > AVG(re.liter);
 
 
+=======
+```sql
+Deine Lösung
+>>>>>>> 2ee2ab64e217faf0ce9dee592ee149093ff5fe1c
 ```
 
 ### Aufgabe 4
@@ -103,7 +108,7 @@ Haben die Rollen Rechte an `SCOTT.EMP` oder `SCOTT.DEPT`?
 
 ```
 
-### Aufgabe 5 - Für Enthusiasten
+### Aufgabe 5
 Es soll für jede Tankstelle der Umsatz einzelner Jahre aufgelistet werden auf Basis der Daten, die Benutzer durch ihre Quittungen eingegeben haben. Sortiere erst nach Jahr und anschließend nach der Tankstelle. Beispiel:
 
 | Jahr  | Anbieter  | Straße            | PLZ   | Stadt | Land          | Umsatz    |
