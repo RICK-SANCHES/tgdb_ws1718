@@ -157,7 +157,7 @@ SELECT pr.provider_name, ad.city
 FROM gas_station gs
 	INNER JOIN provider pr ON (pr.provider_id = gs.provider_id)
 	INNER JOIN address ad ON (ad.address_id = gs.address_id)
-	WHERE gs.GAS_STATION_ID NOT IN (SELECT DISTINCT GAS_STATION_ID FROM RECEIPT);
+	WHERE gs.GAS_STATION_ID NOT IN (SELECT GAS_STATION_ID FROM RECEIPT);
 
 
 ```
