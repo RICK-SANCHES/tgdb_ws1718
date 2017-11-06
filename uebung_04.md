@@ -53,16 +53,14 @@ Welche Kunden haben im Jahr 2017 mehr als den Durchschnitt getank?
 #### Lösung
 <<<<<<< HEAD
 ```
-SELECT ac.surname, ac.forename
-FROM account ac
-INNER JOIN receipt re ON (re.account_id = ac.account_id)
-WHERE re.liter > AVG(re.liter);
 
-
-=======
 ```sql
-Deine Lösung
->>>>>>> 2ee2ab64e217faf0ce9dee592ee149093ff5fe1c
+SELECT ac.account_id, ac.surname, ac.forename, sum(re.liter)
+FROM account ac
+	INNER JOIN receipt re ON (re.account_id = ac.account_id)
+GROUP BY ac.account_id, ac.surname, ac.forename
+HAVING SUM(re.liter)  > (SELECT AVG(liter) FROM receipt );
+
 ```
 
 ### Aufgabe 4
