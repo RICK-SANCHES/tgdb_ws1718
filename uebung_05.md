@@ -16,7 +16,7 @@
 Erstelle mit Dia oder einem anderen Werkzeug eine Abbilung der Mengen, die durch `INNER JOIN`, `RIGHT JOIN`, `LEFT JOIN` und `OUTER JOIN` gemeint sind.
 
 #### Lösung
-> Deine Lösung
+[Joins](./img/joins.png)
 
 ### Aufgabe 2
 Welche Personen haben kein Fahrzeug? Löse dies einmal mit `LEFT JOIN` und `RIGHT JOIN`.
