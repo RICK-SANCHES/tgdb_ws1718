@@ -114,7 +114,7 @@ FROM vehicle vc
 Welche Fahrzeuge wurden noch keinem Benutzer zugewiesen? Gebe über das Fahrzeug Informationen über den Typ, den Hersteller, das Modell, Baujahr und den Kraftstoff aus.
 
 #### Lösung
-```sql
+``` sql
 SELECT vt.VEHICLE_TYPE_NAME, pr.PRODUCER_NAME, ve.VERSION, ve.BUILD_YEAR, gs.GAS_NAME
 FROM VEHICLE ve
 	INNER JOIN VEHICLE_TYPE vt ON (vt.VEHICLE_TYPE_ID = ve.VEHICLE_TYPE_ID)
