@@ -52,7 +52,7 @@ Welche Kunden haben im Jahr 2017 mehr als den Durchschnitt getank?
 
 #### Lösung
 <<<<<<< HEAD
-```
+
 
 ```sql
 SELECT ac.account_id, ac.surname, ac.forename, sum(re.liter)
@@ -102,7 +102,7 @@ Haben die Rollen Rechte an `SCOTT.EMP` oder `SCOTT.DEPT`?
 
 ##### Lösung
 ```sql
-???
+Deine Lösung
 
 ```
 
