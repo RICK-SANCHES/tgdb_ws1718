@@ -123,7 +123,7 @@ Erstelle für dich einen neuen Benutzer.
 #### Lösung
 ```sql
 INSERT INTO account (account_id, surname, forename, email, c_date, d_date)
-VALUES (999, 'Pesch', 'Markus', 'peschm@fh-trier.de', SYSDATE, SYSDATE);
+VALUES (999, 'Wolf', 'Nicolas', 'wolfni@fh-trier.de', SYSDATE, SYSDATE);
 ```
 
 ### Aufgabe 12
