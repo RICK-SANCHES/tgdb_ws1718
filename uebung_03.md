@@ -114,13 +114,15 @@ FROM vehicle vc
 Welche Fahrzeuge wurden noch keinem Benutzer zugewiesen? Gebe über das Fahrzeug Informationen über den Typ, den Hersteller, das Modell, Baujahr und den Kraftstoff aus.
 
 #### Lösung
-``` sql
+ ```sql
+ 
 SELECT vt.VEHICLE_TYPE_NAME, pr.PRODUCER_NAME, ve.VERSION, ve.BUILD_YEAR, gs.GAS_NAME
 FROM VEHICLE ve
 	INNER JOIN VEHICLE_TYPE vt ON (vt.VEHICLE_TYPE_ID = ve.VEHICLE_TYPE_ID)
     INNER JOIN PRODUCER pr ON (pr.PRODUCER_ID = ve.PRODUCER_ID)
     LEFT JOIN GAS gs ON (ve.DEFAULT_GAS_ID = gs.GAS_ID)
 WHERE ve.VEHICLE_ID NOT IN (SELECT VEHICLE_ID FROM ACC_VEHIC);
+
 ```
 
 ### Aufgabe 7
@@ -157,8 +159,6 @@ FROM gas_station gs
 	INNER JOIN provider pr ON (pr.provider_id = gs.provider_id)
 	INNER JOIN address ad ON (ad.address_id = gs.address_id)
 	WHERE gs.GAS_STATION_ID NOT IN (SELECT GAS_STATION_ID FROM RECEIPT);
-
-
 ```
 
 ### Aufgabe 9
