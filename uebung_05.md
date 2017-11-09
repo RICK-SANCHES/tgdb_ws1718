@@ -23,5 +23,10 @@ Welche Personen haben kein Fahrzeug? Löse dies einmal mit `LEFT JOIN` und `RIGH
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT ac.surname, ac.forename
+FROM account ac
+LEFT JOIN acc_vehic av ON (ac.account_id = av.account_id)
+WHERE acc_vehic_id = NULL
+ORDER BY ac.forename;
+
 ```
