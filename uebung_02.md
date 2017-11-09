@@ -122,8 +122,8 @@ Erstelle für dich einen neuen Benutzer.
 
 #### Lösung
 ```sql
-INSERT INTO account (account_id, surname, forename, email, c_date, d_date)
-VALUES (999, 'Wolf', 'Nicolas', 'wolfni@fh-trier.de', SYSDATE, SYSDATE);
+INSERT INTO account (account_id, surname, forename, email, c_date)
+VALUES (999, 'Wolf', 'Nicolas', 'wolfni@fh-trier.de', SYSDATE);
 ```
 
 ### Aufgabe 12
@@ -141,17 +141,17 @@ FROM producer;
 
 -- Erstellen des Autos
 INSERT INTO vehicle
-VALUES (999, 1, 4, 'S80', NULL, 150, SYSDATE, '5', SYSDATE, SYSDATE);
+VALUES (999, 1, 4, 'Focus', NULL, 150, SYSDATE, '5', SYSDATE, SYSDATE);
 
 -- Dynamisches SQL (Alles in einem)
-INSERT INTO vehicle
+INSERT INTO vehicle (vehicle_id, vehicle_type_id, producer_id, version, default_gas_id, ps, c_date, u_date)
 VALUES (
           (SELECT MAX(vehicle_id) + 1 FROM vehicle),
           (SELECT vehicle_type_id FROM vehicle_type WHERE vehicle_type_name = 'PKW'),
           (SELECT producer_id FROM producer WHERE producer_name = 'Ford'),
-          'S80',
+          'Focus',
           NULL,
-          150,
+          105,
           SYSDATE,
           SYSDATE);
 ```
@@ -162,7 +162,7 @@ Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus 
 #### Lösung
 ```sql
 INSERT INTO acc_vehic (acc_vehic_id, account_id, vehicle_id, identicator, alias, buy_price, buy_kilometer, sold_price, sold_kilometer, registration, checkout, default_gas_station, c_date, u_date)
-VALUES (999, 999, 999, 'TR:YZ:1', 'Meine Karre', 5000.00, 15240, NULL, NULL, SYSDATE, NULL, NULL, SYSDATE, SYSDATE);
+VALUES (9, 13, 13, 'TR:NW:23', 'Meine Karre', 4750.00, 15240, NULL, NULL, SYSDATE, NULL, NULL, SYSDATE, SYSDATE);
 ```
 
 ### Aufgabe 14
