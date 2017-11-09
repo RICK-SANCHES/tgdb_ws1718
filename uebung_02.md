@@ -59,7 +59,7 @@ Importiere die SQL-Dump-Datei in dein eigenes Schema. Wie lautet dazu der Befehl
 
 #### Lösung
 ```sql
-start /home/markus/workspace/github.com/volker-raschek/tgdb_ws1718/sql/Tutorium.sql
+start /Users/nicowolf/workspace/github.com/RICK-SANCHES/tgdb_ws1718/01_tutorium.sql
 ```
 
 ### Aufgabe 6
