@@ -20,7 +20,10 @@ Wie heißt der Primary Key Contraint der Tabelle `VEHICLE` und für welche Spalt
 
 #### Lösung
 ```sql
-Deine Lösung
+select constraint_name
+from user_constraints 
+where constraint_type = 'P' and table_name = 'VEHICLE'
+;
 ```
 
 ### Aufgabe 2
@@ -28,7 +31,16 @@ Für welche Spalte**n** der Tabelle `ACC_VEHIC` wurde ein Foreign Key angelegt u
 
 #### Lösung
 ```sql
-Deine Lösung
+SELECT a.table_name, a.column_name, a.constraint_name, c_pk.constraint_name 
+  FROM all_cons_columns a
+  JOIN all_constraints c ON a.owner = c.owner
+                        AND a.constraint_name = c.constraint_name
+  JOIN all_constraints c_pk ON c.r_owner = c_pk.owner
+                           AND c.r_constraint_name = c_pk.constraint_name
+ WHERE c.constraint_type = 'R'
+   AND a.table_name = 'ACC_VEHIC'
+   ;
+   
 ```
 
 ### Aufgabe 3
@@ -36,7 +48,10 @@ Erstelle einen Check Constraint für die Tabelle `ACCOUNT`, dass der Wert der Sp
 
 #### Lösung
 ```sql
-Deine Lösung
+ALTER TABLE account 
+ADD CONSTRAINT co_date
+CHECK( U_Date (to_date( 'dd.mm.yyyy')) > C_Date(to_date( 'dd.mm.yyyy'))
+);
 ```
 
 ### Aufgabe 4
