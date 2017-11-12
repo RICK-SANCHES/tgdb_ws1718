@@ -59,11 +59,14 @@ Erstelle einen Check Constraint der überprüft, ob der erste Buchstabe der Spal
 
 #### Lösung
 ```sql
-Deine Lösung
+ALTER TABLE GAS  
+ADD CONSTRAINT u_gas_name
+CHECK (gas_name = UPPER(gas_name));
+
 ```
 
 ### Aufgabe 5
-Erstelle einen Check Contraint der überprüft, ob der Wert der Spalte `IDENTICATOR` der Tabelle `ACC_VEHIC` eins von diesen möglichen Fahrzeugkennzeichenmustern entspricht. Nutze Reguläre Ausdrücke.
+Erstelle einen Check Contraint, der überprüft, ob der Wert der Spalte `IDENTICATOR` der Tabelle `ACC_VEHIC` eins von diesen möglichen Fahrzeugkennzeichenmustern entspricht. Nutze Reguläre Ausdrücke.
 
 + B:AB:5000
 + TR:MP:1
