@@ -38,7 +38,25 @@ END;
 
 #### Lösung
 ```sql
-Deine Lösung
+DECLARE
+  v_account_id account.account_id%TYPE;
+  v_surname account.surname%TYPE;
+  v_forename account.forename%TYPE;
+BEGIN
+  SELECT MAX(a.account_id) INTO v_account_id
+  FROM account a
+  WHERE a.surname LIKE 'P%';
+
+  DBMS_OUTPUT.PUT_LINE('Der neuste Benutzer mit dem Anfangsbuchstaben P im Nachnamen hat die ID ' || v_account_id);
+  DBMS_OUTPUT.PUT_LINE(' Und heißt: ' || v_surname || v_forename);
+EXCEPTION
+  WHEN NO_DATA_FOUND
+    THEN RAISE_APPLICATION_ERROR(-20001, 'Es wurde kein Benutzer gefunden');
+  WHEN OTHERS
+    THEN DBMS_OUTPUT.PUT_LINE ('Folgender unerwarteter Fehler ist aufgetreten: ');
+  RAISE;
+END;
+/
 ```
 
 ### Aufgabe 2
@@ -46,7 +64,31 @@ Schreibe einen anonymen PL/SQL-Codeblock, der die Tankstelle mit der kleinsten I
 
 #### Lösung
 ```sql
-Deine Lösung
+DECLARE
+	v_gas_id gas_station.gas_station_id%TYPE
+	v_provider_name provider.provider_name%TYPE
+	v_pcode address.plz%TYPE
+	v_city address.city%TYPE
+	v_country country.country_name%TYPE
+BEGIN
+	BEGIN
+		SELECT min(gas_station_id) INTO v_gas_id
+		FROM gas_station;
+	
+	EXCEPTION
+			WHEN NO_DATA_FOUND
+				THEN RAISE_APPLICATION_ERROR(-20001, 'Es wurde kein Benutzer gefunden');
+
+	END;
+	
+	BEGIN
+		SELECT (pr.provider_name, gs.gas_station_id, gs.street, ad.plz, ad.city, co.country_name)
+		FROM gas_station gs
+		INNER JOIN provider pr ON(pr.provider_id = gs.provider_id)
+		INNER JOIN address ad ON(ad.address_id = gs.address_id)
+		INNER JOIN country co ON(co.country_id = gs.country_id)
+		
+		IF 
 ```
 
 ### Aufgabe 3
