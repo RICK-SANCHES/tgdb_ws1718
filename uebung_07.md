@@ -42,13 +42,17 @@ DECLARE
   v_account_id account.account_id%TYPE;
   v_surname account.surname%TYPE;
   v_forename account.forename%TYPE;
+  v_anzahl NUMBER;
 BEGIN
-  SELECT MAX(a.account_id) INTO v_account_id
-  FROM account a
-  WHERE a.surname LIKE 'P%';
+  SELECT ac.surname, ac.forename, COUNT(av.vehicle_id), max(ac.account_id) INTO v_surname
+  FROM acc_vehic av
+  INNER JOIN account ac ON(ac.account_id = av.account_id)
+  WHERE ac.surname LIKE 'P%'
+  GROUP BY ac.surname, ac.forename, av.account_id, ac.account_id;
 
   DBMS_OUTPUT.PUT_LINE('Der neuste Benutzer mit dem Anfangsbuchstaben P im Nachnamen hat die ID ' || v_account_id);
   DBMS_OUTPUT.PUT_LINE(' Und heißt: ' || v_surname || v_forename);
+  DBMS_OUTPUT.PUT_LINE(' Anzahl der Fahrzeuge: ' || v_anzahl);
 EXCEPTION
   WHEN NO_DATA_FOUND
     THEN RAISE_APPLICATION_ERROR(-20001, 'Es wurde kein Benutzer gefunden');
@@ -82,13 +86,15 @@ BEGIN
 	END;
 	
 	BEGIN
-		SELECT (pr.provider_name, gs.gas_station_id, gs.street, ad.plz, ad.city, co.country_name)
+		SELECT 	pr.provider_name, gs.gas_station_id, gs.street, 
+				ad.plz, ad.city, co.country_name, re.account_id
 		FROM gas_station gs
 		INNER JOIN provider pr ON(pr.provider_id = gs.provider_id)
 		INNER JOIN address ad ON(ad.address_id = gs.address_id)
 		INNER JOIN country co ON(co.country_id = gs.country_id)
+		INNER JOIN receipt re ON(re.gas_station_id = gs.gas_station_id)
 		
-		IF 
+		IF count 
 ```
 
 ### Aufgabe 3
