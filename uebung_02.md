@@ -161,8 +161,8 @@ Verknüpfe das aus Aufgabe 12 erstellte neue Auto mit deinem neuen Benutzer aus 
 
 #### Lösung
 ```sql
-INSERT INTO acc_vehic (acc_vehic_id, account_id, vehicle_id, identicator, alias, buy_price, buy_kilometer, sold_price, sold_kilometer, registration, checkout, default_gas_station, c_date, u_date)
-VALUES (9, 13, 13, 'TR:NW:23', 'Meine Karre', 4750.00, 15240, NULL, NULL, SYSDATE, NULL, NULL, SYSDATE, SYSDATE);
+INSERT INTO acc_vehic (acc_vehic_id, account_id, , identicator, alias, buy_price, buy_kilometer, sold_price, sold_kilometer, registration, checkout, default_gas_station, c_date, u_date)
+VALUES (9, 999, 13, 'TR:NW:23', 'Meine Karre', 4750.00, 15240, NULL, NULL, SYSDATE, NULL, NULL, SYSDATE, SYSDATE);
 ```
 
 ### Aufgabe 14
