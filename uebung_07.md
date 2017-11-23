@@ -44,11 +44,11 @@ DECLARE
   v_forename account.forename%TYPE;
   v_anzahl NUMBER;
 BEGIN
-  SELECT ac.surname, ac.forename, COUNT(av.vehicle_id), max(ac.account_id) INTO v_surname
-  FROM acc_vehic av
-  INNER JOIN account ac ON(ac.account_id = av.account_id)
+  SELECT ac.surname, ac.forename, COUNT(av.vehicle_id), max(ac.account_id) INTO v_account_id, v_surname, v_forename, v_anzahl
+  FROM account ac
+  INNER JOIN acc_vehic av ON(ac.account_id = av.account_id)
   WHERE ac.surname LIKE 'P%'
-  GROUP BY ac.surname, ac.forename, av.account_id, ac.account_id;
+  GROUP BY ac.surname, ac.forename;
 
   DBMS_OUTPUT.PUT_LINE('Der neuste Benutzer mit dem Anfangsbuchstaben P im Nachnamen hat die ID ' || v_account_id);
   DBMS_OUTPUT.PUT_LINE(' Und heißt: ' || v_surname || v_forename);
@@ -69,32 +69,73 @@ Schreibe einen anonymen PL/SQL-Codeblock, der die Tankstelle mit der kleinsten I
 #### Lösung
 ```sql
 DECLARE
-	v_gas_id gas_station.gas_station_id%TYPE
-	v_provider_name provider.provider_name%TYPE
-	v_pcode address.plz%TYPE
-	v_city address.city%TYPE
-	v_country country.country_name%TYPE
+	v_gas_id gas_station.gas_station_id%TYPE;
+	v_provider_name provider.provider_name%TYPE;
+	v_pcode address.plz%TYPE;
+	v_city address.city%TYPE;
+	v_country country.country_name%TYPE;
+	v_litre receipt.liter%TYPE;
+	v_avg;
+	
+	
 BEGIN
-	BEGIN
-		SELECT min(gas_station_id) INTO v_gas_id
-		FROM gas_station;
+	SELECT min(gas_station_id) INTO v_gas_id
+	FROM gas_station;
 	
 	EXCEPTION
 			WHEN NO_DATA_FOUND
 				THEN RAISE_APPLICATION_ERROR(-20001, 'Es wurde kein Benutzer gefunden');
 
-	END;
-	
-	BEGIN
-		SELECT 	pr.provider_name, gs.gas_station_id, gs.street, 
+END;	
+BEGIN
+	SELECT 	pr.provider_name, gs.gas_station_id, gs.street, 
 				ad.plz, ad.city, co.country_name, re.account_id
-		FROM gas_station gs
-		INNER JOIN provider pr ON(pr.provider_id = gs.provider_id)
-		INNER JOIN address ad ON(ad.address_id = gs.address_id)
-		INNER JOIN country co ON(co.country_id = gs.country_id)
-		INNER JOIN receipt re ON(re.gas_station_id = gs.gas_station_id)
+	FROM gas_station gs
+	INNER JOIN provider pr ON(pr.provider_id = gs.provider_id)
+	INNER JOIN address ad ON(ad.address_id = gs.address_id)
+	WHERE gs.gas_station_id = (SELECT MIN(gs.gas_station_id) FROM gas_station);
 		
-		IF count 
+	DBMS_OUTPUT.PUT_LINE('Tankstellen ID: ' || v_gas_id);
+	DBMS_OUTPUT.PUT_LINE('Anbieter: ' || v_provider_name);
+	DBMS_OUTPUT.PUT_LINE('Adresse: ');
+	DBMS_OUTPUT.PUT_LINE('PLZ: ' || v_pcode);
+	DBMS_OUTPUT.PUT_LINE('Stadt: ' || v_city);
+	DBMS_OUTPUT.PUT_LINE('PLZ: ' || v_pcode);
+	DBMS_OUTPUT.PUT_LINE('PLZ: ' || v_country);
+	
+EXCEPTION
+	WHEN NO_DATA_FOUND
+	    THEN RAISE_APPLICATION_ERROR(-20001, 'Es wurde kein Eintrag gefunden');
+END; 
+	
+BEGIN
+	SELECT SUM(liter) INTO v_litre
+	FROM receipt
+	WHERE gas_station_id = (SELECT MIN(gas_station_id) FROM gas_station);
+		
+	SELECT AVG(liter) INTO v_avg
+	FROM receipt;
+		
+	IF v_litre > v_avg THEN 
+	DBMS_OUTPUT.PUT_LINE('Summer getankte Liter: ' || v_litre);
+	DBMS_OUTPUT.PUT_LINE('durch. getankte Liter: ' || v_avg);
+	DBMS_OUTPUT.PUT_LINE('Die Tankstelle ist gut besucht');
+	
+	ELSE
+	DBMS_OUTPUT.PUT_LINE('Summer getankte Liter: ' || v_litre);
+	DBMS_OUTPUT.PUT_LINE('durch. getankte Liter: ' || v_avg);
+	DBMS_OUTPUT.PUT_LINE('Die Tankstelle ist schlecht besucht');		
+	END IF;
+		
+	EXCEPTION
+		WHEN NO_DATA_FOUND
+		THEN RAISE_APPLICATION_ERROR(-20001, 'Es wurde kein Tankstelle gefunden');
+			WHEN OTHERS
+		    	THEN DBMS_OUTPUT.PUT_LINE ('Folgender unerwarteter Fehler ist aufgetreten: ');
+		  	  	RAISE;
+END;
+
+
 ```
 
 ### Aufgabe 3
@@ -120,7 +161,34 @@ END;
 
 #### Lösung
 ```sql
-Deine Lösung
+
+
+DECLARE
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Liste alle Tankstellen aus Deutschland');
+  DBMS_OUTPUT.PUT_LINE('____________________________________________');
+  FOR rec_gs IN (  SELECT p.provider_name, gs.street, a.plz, a.city, c.country_name
+                    FROM gas_station gs
+                      INNER JOIN address a ON (a.address_id = gs.address_id)
+                      INNER JOIN provider p ON (gs.provider_id = p.provider_id)
+                      INNER JOIN country c ON (gs.country_id = c.country_id)
+                    WHERE c.country_name LIKE 'Deutschland') LOOP
+    DBMS_OUTPUT.PUT_LINE('++ ' || rec_gs.provider_name || ' ++ ' || rec_gs.street || ' ++ ' || rec_gs.plz || ' ++ ' || rec_gs.city || ' ++ ' || rec_gs.country_name);
+   
+   
+    FOR kun_gs IN	(  SELECT ac.account_id, ac.surname, ac.forename
+                      FROM receipt re
+					  INNER JOIN account ac ON (ac.account_id = re.account_id)
+                      WHERE re.gas_station_id = gs.gas_station_id ) LOOP				  
+					  DBMS_OUTPUT.PUT_LINE('____________________________________________');
+				  DBMS_OUTPUT.PUT_LINE('++ ' || kun_gs.account_id || ' ++ ' || kun_gs.surname || ' ++ ' || kun_gs.forename );
+				  
+				  END LOOP;
+  END LOOP;
+END;
+/
+
+
 ```
 
 ### Aufgabe 4
