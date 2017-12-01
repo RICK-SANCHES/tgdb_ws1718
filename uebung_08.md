@@ -15,7 +15,26 @@ Erstelle eine Prozedur, die das anlegen von Benutzern durch übergabe von Parame
 
 #### Lösung
 ```sql
-Deine Lösung
+
+
+CREATE OR REPLACE PROCEDURE insert_user (surname_in IN VARCHAR2, forename_in IN VARCHAR2, email_in IN VARCHAR2)
+AS
+
+BEGIN 
+	INSERT INTO account(account_id, surname, forename, email, c_date, u_date)
+	VALUES ((SELECT MAX(account_id)+1 FROM Account),
+		surname_in, forename_in, email_in, SYSDATE, SYSDATE	
+		);
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE ('ES ist ein Fehler aufgetreten!');
+	RAISE;
+END;
+/
+
+
+
+
 ```
 
 ### Aufgabe 2
