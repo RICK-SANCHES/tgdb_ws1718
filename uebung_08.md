@@ -42,6 +42,45 @@ Erstelle eine Prozedur, die das erstellen von Quittungen ermöglicht.  Fange ent
 
 #### Lösung
 ```sql
-Deine Lösung
+CREATE OR REPLACE PROCEDURE issue_recipe (
+	accv_vehic_in IN NUMBER,
+	duty_amount_in IN NUMBER,
+	gas_station_id_in IN NUMBER,
+	price_in IN NUMBER,
+	liter_in IN NUMBER,
+	re_date_in IN DATE)
+
+AS
+	accv_vehic_in acc_vehic.acc_vehic_id%TYPE;
+	duty_amount_in country.duty_amount%TYPE;
+	gas_station_id_in gas_station.gas_station_id%TYPE;
+	price_in receipt.price_l%TYPE;
+	liter_in receipt.liter%TYPE;
+	re_date_in receipt.receipt_date%TYPE;
+
+BEGIN
+	IF ( TRUE <> REGEXP_LIKE (in_email, '[a-zA-Z0-9._%-]+@[a-zA-Z0-9._%-]+\.[a-zA-Z]{2,7}')) THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Die E-Mail entspricht nicht den Konditionen.');
+	ELSE
+        BEGIN
+	            SELECT account_id INTO v_account_id
+	            FROM account
+	            WHERE email = in_email;
+	        EXCEPTION
+	            WHEN NO_DATA_FOUND THEN
+	                RAISE_APPLICATION_ERROR(-20001, 'Es konnte kein Benutzer mit der E-Mail Adresse ' || in_email || ' gefunden werden!');
+	        END;
+	END IF;
+	
+	BEGIN
+
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		DBMS_OUTPUT.PUT_LINE ('ES ist ein Fehler aufgetreten!');
+	RAISE;
+
+END;
+/	
+
 ```
 
