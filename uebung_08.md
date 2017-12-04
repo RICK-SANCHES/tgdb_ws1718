@@ -73,6 +73,25 @@ BEGIN
 	END IF;
 	
 	BEGIN
+	        SELECT acc_vehic_id INTO v_accv_id
+	        FROM acc_vehic
+	        WHERE acc_vehic_id = in_accv_id;
+	EXCEPTION
+	        WHEN NO_DATA_FOUND THEN
+	            RAISE_APPLICATION_ERROR(-20001, 'Es konnte kein Fahrzeug mit der ACC_VEHIC_ID ' || in_accv_id || ' gefunden werden!');
+	END;
+
+	BEGIN
+        SELECT gas_station_id INTO v_gas_station_id
+        FROM gas_station
+		WHERE gas_station_id = in_gas_station_id;
+	EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+	            RAISE_APPLICATION_ERROR(-20001, 'Es konnte keine Tankstelle mit der GAS_STATION_ID ' || in_gas_station_id || ' gefunden werden!');
+	END;
+	
+	
+		
 
 EXCEPTION
 	WHEN NO_DATA_FOUND THEN
