@@ -16,11 +16,15 @@ Wo liegen die Vor- und Nachteile eines Trigger in Vergleich zu einer Prozedur?
 #### Lösung
 Deine Lösung
 
+Ein Trigger kann bei relationalen Datenbankmodellen ein abgespeichertes Programm aufrufen, welches beispielsweise bestimmte Änderungen blockiert oder verhindert.
+
 ### Aufgabe 2
 Wo drin unterscheidet sich der `Row Level Trigger` von einem `Statement Trigger`?
 
 #### Lösung
-Deine Lösung
+
+Der Unterschied besteht in der Anzahl zugelassner Änderungen.
+
 
 ### Aufgabe 3
 Schaue dir den folgenden PL/SQL-Code an. Was macht er?
@@ -51,12 +55,14 @@ END;
 ```
 
 #### Lösung
-Deine Lösung
+
+Der Trigger verhindert, dass eine Account_ID einfach vom User 'frei' hinzugfügt wird. Es soll bei der Wahl der ID auf die erstellte Sequenz zugegriffen werden.
+
 
 ### Aufgabe 4
 Verbessere den Trigger aus Aufgabe 2 so, dass
 + wenn versucht wird einen Datensatz mit `NULL` Werten zu füllen, die alten Wert für alle Spalten, die als `NOT NULL` gekennzeichnet sind, behalten bleiben.
-+ es nicht möglich ist, das die Werte für `C_DATE` und `U_DATE` in der Zukunkt liegen
++ es nicht möglich ist, dass die Werte für `C_DATE` und `U_DATE` in der Zukunkt liegen
 + `U_DATE` >= `C_DATE` sein muss
 + der erste Buchstabe jedes Wortes im Vor- und Nachnamen groß geschrieben wird
 + die Account-ID aus einer `SEQUENCE` entnommen wird
@@ -65,7 +71,26 @@ Nutze die Lösung der Aufgabe 2, Aufgabenblatt 8 um die Aufgabe zu lösen. Dort 
 
 #### Lösung
 ```sql
-Deine Lösung
+
+CREATE OR REPLACE TRIGGER BIU_ACCOUNT_2
+BEFORE INSERT OR UPDATE OF account_id ON account
+FOR EACH ROW
+DECLARE
+
+BEGIN
+  IF UPDATING('account_id') = NULL THEN
+    RAISE_APPLICATION_ERROR(-20002, 'Die Account-ID darf nicht NULL sein!');
+	
+	ELSE IF Updating ('U_DATE')
+    RAISE_APPLICATION_ERROR(-20003, 'Das Datum darf nicht in der Vergangenheit liegen');
+	
+  END IF;
+
+  IF INSERTING THEN
+    :NEW.account_id := seq_account_id.NEXTVAL;
+  END IF;
+END;
+/
 ```
 
 ### Aufgabe 5
