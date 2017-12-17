@@ -35,6 +35,23 @@ START WITH 1000
 INCREMENT BY 1
 MAXVALUE 99999999
 CYCLE
+CREATE SEQUENCE seq_fachbereich
+START WITH 15
+INCREMENT BY 1
+MAXVALUE 1000
+CYCLE
+CACHE 20;
+
+CREATE OR REPLACE TRIGGER BIU_FACHBEREICH
+BEFORE INSERT OR UPDATE OF fachbereich ON fachbereich
+FOR EACH ROW
+DECLARE
+
+BEGIN
+  IF UPDATING('fachbereichnr') THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Die Fachbereichnr darf nicht verändert oder frei gewählt werden!');
+  END IF;
+  ;
 CACHE 20;
 
 CREATE OR REPLACE TRIGGER BIU_ACCOUNT
@@ -66,7 +83,21 @@ Verbessere den Trigger aus Aufgabe 2 so, dass
 + `U_DATE` >= `C_DATE` sein muss
 + der erste Buchstabe jedes Wortes im Vor- und Nachnamen groß geschrieben wird
 + die Account-ID aus einer `SEQUENCE` entnommen wird
+CREATE OR REPLACE TRIGGER BIU_FACHBEREICH
+BEFORE INSERT OR UPDATE OF fachbereich ON fachbereich
+FOR EACH ROW
+DECLARE
 
+BEGIN
+  IF UPDATING('fachbereichnr') THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Die Fachbereichnr darf nicht verändert oder frei gewählt werden!');
+  END IF
+  IF INSERTING THEN
+    :NEW.fachbereichnr := seq_fachbereich.NEXTVAL;
+  END IF;
+END;
+/
+  
 Nutze die Lösung der Aufgabe 2, Aufgabenblatt 8 um die Aufgabe zu lösen. Dort solltest du einige Hilfestellungen finden.
 
 #### Lösung
@@ -74,7 +105,21 @@ Nutze die Lösung der Aufgabe 2, Aufgabenblatt 8 um die Aufgabe zu lösen. Dort 
 
 CREATE OR REPLACE TRIGGER BIU_ACCOUNT_2
 BEFORE INSERT OR UPDATE OF account_id ON account
+FOCREATE OR REPLACE TRIGGER BIU_FACHBEREICH
+BEFORE INSERT OR UPDATE OF fachbereichnr ON fachbereich
 FOR EACH ROW
+DECLARE
+
+BEGIN
+  IF UPDATING('fachbereichnr') THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Die Fachbereichnr darf nicht verändert oder frei gewählt werden!');
+  END IF;
+  IF INSERTING THEN
+    :NEW.fachbereichnr := seq_fachbereich.NEXTVAL;
+  END IF;
+END;
+/
+  R EACH ROW
 DECLARE
 
 BEGIN
