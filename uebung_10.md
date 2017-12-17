@@ -37,7 +37,11 @@ Geben Sie mit einem SQL Befehl alle Klausuren aus, zu denen sich Personen angeme
 
 #### Lösung
 ```sql
-Deine Lösung
+
+
+
+
+
 ```
 
 ### Aufgabe 3
