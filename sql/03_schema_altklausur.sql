@@ -1,7 +1,12 @@
 --------------------------------------------------------
 --  DDL for Table BESTELLUNG
 --------------------------------------------------------
-
+CREATE TABLE "BESTELLUNG"(
+	"BESTELLNR" NUMBER(10) PRIMARY KEY,
+	"KUNDENNR" NUMBER(10) NOT NULL,
+	"BESTELLDATUM" DATE NOT NULL,
+	"LIEFERDATUM" DATE
+);
 --------------------------------------------------------
 --  DDL for Table BESTELL_POSITION
 --------------------------------------------------------
